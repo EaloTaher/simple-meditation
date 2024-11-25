@@ -1,4 +1,5 @@
-import { View, Text, ImageBackground, SafeAreaView } from "react-native";
+import { View, Text, ImageBackground } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 //make sure you use expo status bar and not react
