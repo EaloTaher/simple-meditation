@@ -1,11 +1,30 @@
 import { View, Text, ImageBackground, SafeAreaView } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 //make sure you use expo status bar and not react
 import { StatusBar } from "expo-status-bar";
 import beachImage from "@/assets/meditation-images/beach.webp";
 import CustomButton from "@/components/CustomButton";
+import * as SplashScreen from "expo-splash-screen";
+import { useRouter } from "expo-router";
+import AppGradient from "@/components/AppGradient";
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
 const App = () => {
+  const router = useRouter();
+  useEffect(() => {
+    const prepare = async () => {
+      // Simulate an async task like fetching data or resources
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // 2 seconds delay
+
+      // Hide the splash screen once the app is ready
+      await SplashScreen.hideAsync();
+    };
+
+    prepare();
+  }, []);
   return (
     <View className="flex-1">
       {/* Status bar can be anywhere in the component */}
@@ -15,12 +34,8 @@ const App = () => {
         resizeMode="cover"
         className="flex-1"
       >
-        <LinearGradient
-          // using native wind makes some problems in LinearGradinet Component
-          style={{ flex: 1 }}
-          colors={["rgba(0, 0, 0, 0.4)", "rgba(0, 0, 0, 0.8)"]}
-        >
-          <SafeAreaView className=" flex-1 mx-5 my-8 justify-between">
+        <AppGradient colors={["rgba(0, 0, 0, 0.4)", "rgba(0, 0, 0, 0.8)"]}>
+          <SafeAreaView className=" flex-1 px-1 justify-between">
             <View>
               <Text className="text-center text-white font-bold text-4xl">
                 Simple Meditation
@@ -31,12 +46,13 @@ const App = () => {
             </View>
             <View>
               <CustomButton
-                onPress={() => console.log("Test")}
+                // because we have (tabs) we don't have inculde /tabs in the url
+                onPress={() => router.push("/nature-meditate")}
                 title="Get Started"
               />
             </View>
           </SafeAreaView>
-        </LinearGradient>
+        </AppGradient>
       </ImageBackground>
     </View>
   );
